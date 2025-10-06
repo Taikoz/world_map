@@ -243,7 +243,7 @@ export default function WorldMap() {
 
 
     scene.registerBeforeRender(() => {
-      sphere.rotation.y += 0.0005;
+      sphere.rotation.y += 0.0002;
     });
      
     engine.runRenderLoop(() => {
