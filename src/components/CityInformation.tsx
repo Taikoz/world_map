@@ -10,7 +10,7 @@ export default function CityInformation({ city, className = "" }: CityInfosProps
     if (!city) return null;
 
     return (
-        <div className={`z-50 w-70 transition-all duration-500 ${className}`}>
+        <div className={`z-50 w-full md:w-80 transition-all duration-500 ${className}`}>
             <div className="relative p-6 bg-gradient-to-br from-slate-900/95 via-blue-900/95 to-indigo-900/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-cyan-500/30 overflow-hidden">
                 
                 {/* Effet de lueur animé */}

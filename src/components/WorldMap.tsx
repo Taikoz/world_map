@@ -17,16 +17,15 @@ import {
   GlowLayer,
   Mesh,
   AbstractMesh,
-  CubeTexture,
-  ParticleSystem,
-  
 
 } from "@babylonjs/core";
 
 import citiesData from "../utils/cities.json"
 
 import earthTextureUrl from "../assets/earth.jpg"
-import skyBoxTexture from "../assets/skybox.jpg"
+import earthNormalTexture from "../assets/earth_normal.jpg"
+import earthSpecularTextureUrl from "../assets/earth_specular.jpg"
+
 import convertGeoToCartesian from "../utils/ConvertGeo";
 import type City from "../interfaces/city";
 import CityInformation from "./CityInformation";
@@ -57,8 +56,10 @@ export default function WorldMap() {
       scene
     );
     camera.attachControl(canvasRef.current, true);
-    camera.lowerRadiusLimit = 2.3; 
+    camera.lowerRadiusLimit = 1.1; 
     camera.upperRadiusLimit = 25;
+    camera.wheelPrecision = 50;
+    camera.minZ = 0.1;
 
     const cameraAnimation = new Animation(
       "cameraZoom",
@@ -69,7 +70,7 @@ export default function WorldMap() {
     );
     cameraAnimation.setKeys([
       { frame: 0, value: 8 },
-      { frame: 120, value: 4 },
+      { frame: 120, value: 2.5 },
     ]);
     const ease = new CubicEase();
     ease.setEasingMode(EasingFunction.EASINGMODE_EASEOUT);
@@ -90,18 +91,21 @@ export default function WorldMap() {
       new Vector3(1, 0.5, 1),
       scene
     );
-    directionalLight.intensity = 0.5;
+    directionalLight.intensity = 0.9;
 
     
     const gl = new GlowLayer("glow", scene);
-    gl.intensity = 0.8;
+    gl.intensity = 0.6;
 
 
     const sphere = MeshBuilder.CreateSphere("earth", { diameter: 2, segments: 64}, scene);
     
     const earthMaterial = new StandardMaterial("earthMat", scene);
     earthMaterial.diffuseTexture = new Texture(earthTextureUrl, scene);
-    earthMaterial.specularColor = new Color3(0.2, 0.3, 0.5);
+    earthMaterial.bumpTexture = new Texture(earthNormalTexture, scene);
+    earthMaterial.bumpTexture.level = 8
+    earthMaterial.specularTexture = new Texture(earthSpecularTextureUrl, scene);
+    earthMaterial.specularColor = new Color3(1, 0.3, 0.5);
     earthMaterial.emissiveColor = new Color3(0.05, 0.08, 0.10);
     
    
@@ -135,7 +139,7 @@ export default function WorldMap() {
 
         const marker = MeshBuilder.CreateSphere(
             `${city.city}_marker`, 
-            { diameter: 0.025  },
+            { diameter: 0.009  },
             scene
         );
 
@@ -257,11 +261,11 @@ export default function WorldMap() {
 
   return (
   <div className="w-full h-screen">
-  <div className="grid grid-cols-3 gap-2 w-full h-full">
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-2 w-full h-full">
     
-    <div className="col-span-1 bg-gray-900 text-white p-4 overflow-auto">
-      <div className={`absolute top-8 left-8 z-10 transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
-        <h1 className="text-5xl font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent mb-2">
+    <div className="col-span-1 md:col-span-1 bg-gray-900 text-white p-4 overflow-auto">
+      <div className={`absolute top-8 left-4 md:left-8 z-10 transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
+        <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent mb-2">
           Globe Interactif
         </h1>
         <p className="text-cyan-200/70 text-lg">
@@ -270,25 +274,25 @@ export default function WorldMap() {
 
       </div>
 
-      <div className={`absolute bottom-8 left-8 z-10 transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`absolute bottom-8 left-4 md:left-8 z-10 transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
         <div className="bg-slate-900/40 backdrop-blur-xl border border-cyan-500/20 rounded-xl p-4">
           <div className="text-3xl font-bold text-cyan-400">{citiesData.length} 🏙️</div>
           <div className="text-sm text-cyan-200/60">Villes disponibles </div>
         </div>
       </div>
     
-      <CityInformation className="fixed top-40 left-20 z-50" city={hoveredCity} />
+      <CityInformation className="relative md:fixed top-40 z-50" city={hoveredCity} />
     
     </div>
     
 
-    <div className="col-span-2 relative">
+    <div className="col-span-1 md:col-span-2 relative">
       <canvas
         ref={canvasRef}
         className="w-full h-full "
       />
 
-      <div className={`absolute bottom-8 right-8 z-10 transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`absolute bottom-8 right-4 md:right-8 z-10 transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
         <div className="bg-slate-900/40 backdrop-blur-xl border border-cyan-500/20 rounded-xl p-4 text-cyan-200/80 text-sm">
           <div className="font-semibold mb-2 text-cyan-400">💡 Contrôles</div>
           <div className="space-y-1">
