@@ -1,5 +1,5 @@
 import './App.css'
-import WorldMap from './components/WorldMap'
+import WorldMap from './components/worldmap/WorldMap'
 
 function App() {
 
