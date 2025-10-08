@@ -52,21 +52,18 @@ export const useBabylonScene = (canvasRef: React.RefObject<HTMLCanvasElement | n
     camera.animations.push(cameraAnimation);
     scene.beginAnimation(camera, 0, 120, false);
 
-    const hemisphericLight = new HemisphericLight(
-      "hemiLight",
-      new Vector3(0, 1, 0),
-      scene
-    );
-    hemisphericLight.intensity = 0.6;
+  
 
     const directionalLight = new HemisphericLight(
       "dirLight",
-      new Vector3(1, 0.5, 1),
+      new Vector3(1, -0.5, 1),
       scene
     );
-    directionalLight.intensity = 0.9;
+    directionalLight.intensity = 1.2;
 
     setScene(scene);
+
+    
 
     engine.runRenderLoop(() => {
       scene.render();
