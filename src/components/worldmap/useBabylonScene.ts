@@ -30,7 +30,7 @@ export const useBabylonScene = (canvasRef: React.RefObject<HTMLCanvasElement | n
       scene
     );
     camera.attachControl(canvasRef.current, true);
-    camera.lowerRadiusLimit = 1.1;
+    camera.lowerRadiusLimit = 1.25;
     camera.upperRadiusLimit = 25;
     camera.wheelPrecision = 50;
     camera.minZ = 0.1;

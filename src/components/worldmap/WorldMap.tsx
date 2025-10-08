@@ -1,15 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import type City from "../../interfaces/city";
+import type { HurricanePointData } from "../../interfaces/hurricane";
 import CityInformation from "../CityInformation";
+import HurricaneInformation from "../HurricaneInformation";
 import { useBabylonScene } from "./useBabylonScene";
 import { createEarth } from "./createEarth";
 import { createCityMarkers } from "./createCityMarkers";
-import { createInteractionManager } from "./InteractionManager";
+import { createHurricanePresentation } from "./createHurricanRepresentation";
 import citiesData from "../../utils/cities.json";
+import { createMasterInteractionManager } from "./MasterInteractionManager";
+
 
 export default function WorldMap() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [hoveredCity, setHoveredCity] = useState<City | null>(null);
+  const [hoveredHurricane, setHoveredHurricane] = useState<HurricanePointData | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const scene = useBabylonScene(canvasRef);
 
@@ -17,16 +22,21 @@ export default function WorldMap() {
     if (scene) {
       const { sphere, gl } = createEarth(scene);
       const { markers, markerMaterial, hoveredMarkerMaterial, selectedMarkerMaterial } = createCityMarkers(scene, sphere);
+      const { hurricanePoints, hurricaneMarkerMaterial, hoveredHurricaneMarkerMaterial, selectedHurricaneMarkerMaterial } = createHurricanePresentation(scene, sphere);
 
-      createInteractionManager(
+      createMasterInteractionManager(
         scene,
         canvasRef,
         gl,
-        sphere,
         setHoveredCity,
+        setHoveredHurricane,
         markerMaterial,
         hoveredMarkerMaterial,
-        selectedMarkerMaterial
+        selectedMarkerMaterial,
+        hurricaneMarkerMaterial,
+        hoveredHurricaneMarkerMaterial,
+        selectedHurricaneMarkerMaterial,
+        sphere
       );
 
       let pulseValue = 0;
@@ -34,7 +44,7 @@ export default function WorldMap() {
         pulseValue += 0.02;
         const scale = 1 + Math.sin(pulseValue) * 0.15;
         markers.forEach((marker) => {
-          if (marker.metadata !== hoveredCity) {
+          if (marker.metadata !== hoveredCity && !hoveredHurricane) {
             marker.scaling.x = scale;
             marker.scaling.y = scale;
             marker.scaling.z = scale;
@@ -66,7 +76,9 @@ export default function WorldMap() {
             </div>
           </div>
 
+          
           <CityInformation className="relative md:fixed top-40 z-50" city={hoveredCity} />
+          <HurricaneInformation className="relative md:fixed top-80 z-50" hurricane={hoveredHurricane} />
         </div>
 
         <div className="col-span-1 md:col-span-2 relative">

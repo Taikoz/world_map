@@ -5,8 +5,6 @@ import {
   Texture,
   Color3,
   GlowLayer,
-  Engine,
-  FresnelParameters,
 } from "@babylonjs/core";
 import earthTextureUrl from "../../assets/earth.jpg";
 import earthNormalTexture from "../../assets/earth_normal.jpg";
@@ -17,13 +15,7 @@ export const createEarth = (scene: Scene) => {
   const gl = new GlowLayer("glow", scene);
   gl.intensity = 0.6;
   gl.blurKernelSize = 64;
-  gl.customEmissiveColorSelector = function (mesh, subMesh, material, result) {
-    if (mesh.name === "earth") {
-      result.set(0.3, 0.6, 1, 1.0);
-    } else {
-      result.set(0, 0, 0, 0);
-    }
-  };
+  
 
   const sphere = MeshBuilder.CreateSphere(
     "earth",
@@ -46,7 +38,7 @@ export const createEarth = (scene: Scene) => {
   sphere.rotation.x = Math.PI;
 
   scene.registerBeforeRender(() => {
-    sphere.rotation.y += 0.0003;
+    sphere.rotation.y += 0.00003;
   });
 
   return { sphere, gl };

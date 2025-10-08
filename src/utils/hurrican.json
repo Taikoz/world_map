@@ -1,0 +1,180 @@
+[
+  {
+    "name": "Ouragan Sophia",
+    "category": 4,
+    "start": "2025-10-01T00:00:00Z",
+    "end": "2025-10-07T12:00:00Z",
+    "points": [
+      {
+        "hour": "2025-10-01T00:00:00Z",
+        "latitude": 18.5,
+        "longitude": -60.0,
+        "power_kmh": 130
+      },
+      {
+        "hour": "2025-10-01T12:00:00Z",
+        "latitude": 19.2,
+        "longitude": -61.5,
+        "power_kmh": 155
+      },
+      {
+        "hour": "2025-10-02T00:00:00Z",
+        "latitude": 20.0,
+        "longitude": -63.2,
+        "power_kmh": 180
+      },
+      {
+        "hour": "2025-10-02T12:00:00Z",
+        "latitude": 21.1,
+        "longitude": -65.0,
+        "power_kmh": 200
+      },
+      {
+        "hour": "2025-10-03T00:00:00Z",
+        "latitude": 22.5,
+        "longitude": -67.1,
+        "power_kmh": 220
+      },
+      {
+        "hour": "2025-10-03T12:00:00Z",
+        "latitude": 24.0,
+        "longitude": -69.3,
+        "power_kmh": 235
+      },
+      {
+        "hour": "2025-10-04T00:00:00Z",
+        "latitude": 25.6,
+        "longitude": -71.0,
+        "power_kmh": 250
+      },
+      {
+        "hour": "2025-10-04T12:00:00Z",
+        "latitude": 27.4,
+        "longitude": -72.8,
+        "power_kmh": 260
+      },
+      {
+        "hour": "2025-10-05T00:00:00Z",
+        "latitude": 29.3,
+        "longitude": -73.9,
+        "power_kmh": 270
+      },
+      {
+        "hour": "2025-10-05T12:00:00Z",
+        "latitude": 31.0,
+        "longitude": -74.5,
+        "power_kmh": 260
+      },
+      {
+        "hour": "2025-10-06T00:00:00Z",
+        "latitude": 33.0,
+        "longitude": -74.8,
+        "power_kmh": 240
+      },
+      {
+        "hour": "2025-10-06T12:00:00Z",
+        "latitude": 35.2,
+        "longitude": -74.5,
+        "power_kmh": 220
+      },
+      {
+        "hour": "2025-10-07T00:00:00Z",
+        "latitude": 37.8,
+        "longitude": -73.9,
+        "power_kmh": 190
+      },
+      {
+        "hour": "2025-10-07T06:00:00Z",
+        "latitude": 39.5,
+        "longitude": -73.2,
+        "power_kmh": 160
+      },
+      {
+        "hour": "2025-10-07T12:00:00Z",
+        "latitude": 40.7,
+        "longitude": -72.6,
+        "power_kmh": 130
+      }
+    ]
+  },
+  {
+    "name": "Tempête Zoe",
+    "category": 2,
+    "start": "2025-10-10T00:00:00Z",
+    "end": "2025-10-12T18:00:00Z",
+    "points": [
+      {
+        "hour": "2025-10-10T00:00:00Z",
+        "latitude": 45.0,
+        "longitude": -10.0,
+        "power_kmh": 100
+      },
+      {
+        "hour": "2025-10-10T06:00:00Z",
+        "latitude": 46.0,
+        "longitude": -7.0,
+        "power_kmh": 110
+      },
+      {
+        "hour": "2025-10-10T12:00:00Z",
+        "latitude": 47.0,
+        "longitude": -4.0,
+        "power_kmh": 120
+      },
+      {
+        "hour": "2025-10-10T18:00:00Z",
+        "latitude": 48.0,
+        "longitude": -1.0,
+        "power_kmh": 130
+      },
+      {
+        "hour": "2025-10-11T00:00:00Z",
+        "latitude": 48.5,
+        "longitude": 1.0,
+        "power_kmh": 140
+      },
+      {
+        "hour": "2025-10-11T06:00:00Z",
+        "latitude": 48.8,
+        "longitude": 3.0,
+        "power_kmh": 130
+      },
+      {
+        "hour": "2025-10-11T12:00:00Z",
+        "latitude": 48.6,
+        "longitude": 5.0,
+        "power_kmh": 120
+      },
+      {
+        "hour": "2025-10-11T18:00:00Z",
+        "latitude": 48.3,
+        "longitude": 7.0,
+        "power_kmh": 110
+      },
+      {
+        "hour": "2025-10-12T00:00:00Z",
+        "latitude": 47.8,
+        "longitude": 8.5,
+        "power_kmh": 90
+      },
+      {
+        "hour": "2025-10-12T06:00:00Z",
+        "latitude": 47.2,
+        "longitude": 9.5,
+        "power_kmh": 80
+      },
+      {
+        "hour": "2025-10-12T12:00:00Z",
+        "latitude": 46.5,
+        "longitude": 10.5,
+        "power_kmh": 70
+      },
+      {
+        "hour": "2025-10-12T18:00:00Z",
+        "latitude": 45.8,
+        "longitude": 11.0,
+        "power_kmh": 60
+      }
+    ]
+  }
+]
