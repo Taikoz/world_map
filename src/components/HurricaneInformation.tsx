@@ -17,12 +17,9 @@ export default function HurricaneInformation({
       className={`z-50 w-full md:w-80 transition-all duration-500 ${className}`}
     >
       <div className="relative p-6 bg-gradient-to-br from-slate-900/95 via-blue-900/95 to-indigo-900/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-cyan-500/30 overflow-hidden">
-        {/* Animated glow effect */}
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-indigo-500/10 animate-pulse"></div>
 
-        {/* Content */}
         <div className="relative z-10">
-          {/* Hurricane title */}
           <div className="flex items-start gap-3 mb-4">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center shadow-lg shadow-cyan-500/50">
               <svg
@@ -51,7 +48,6 @@ export default function HurricaneInformation({
 
           <Separator />
 
-          {/* Hurricane details */}
           <div className="flex flex-col gap-3 mt-4">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500/20 to-blue-500/20 flex items-center justify-center border border-indigo-400/30">
