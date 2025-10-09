@@ -7,9 +7,9 @@ import {
   Animation,
   Mesh,
 } from "@babylonjs/core";
-import citiesData from "../../utils/cities.json";
-import type City from "../../interfaces/city";
-import convertGeoToCartesian from "../../utils/ConvertGeo";
+import type City from "../interfaces/city";
+import convertGeoToCartesian from "../utils/ConvertGeo";
+import citiesData from "../utils/cities.json";
 
 export const createCityMarkers = (scene: Scene, sphere: Mesh) => {
   const markerMaterial = new StandardMaterial("markerMat", scene);
@@ -67,5 +67,10 @@ export const createCityMarkers = (scene: Scene, sphere: Mesh) => {
     markers.push(marker);
   });
 
-  return { markers, markerMaterial, hoveredMarkerMaterial, selectedMarkerMaterial };
+  return {
+    markers,
+    markerMaterial,
+    hoveredMarkerMaterial,
+    selectedMarkerMaterial,
+  };
 };

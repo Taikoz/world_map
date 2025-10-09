@@ -6,20 +6,26 @@ import {
   Vector3,
   type Scene,
 } from "@babylonjs/core";
-import hurricaneDataPoints from "../../utils/hurrican.json";
-import convertGeoToCartesian from "../../utils/ConvertGeo";
-import type { Point, Hurricane } from "../../interfaces/hurricane";
+import type { Hurricane, Point } from "../interfaces/hurricane";
+import convertGeoToCartesian from "../utils/ConvertGeo";
+import hurricaneDataPoints from "../utils/hurrican.json";
 
 export const createHurricanePresentation = (scene: Scene, sphere: Mesh) => {
   const hurricaneMarkerMaterial = new StandardMaterial("hurricanPoint", scene);
   hurricaneMarkerMaterial.emissiveColor = new Color3(1, 1, 1);
   const hurricaneLineMaterial = new StandardMaterial("hurricaneLine", scene);
-  hurricaneLineMaterial.emissiveColor = new Color3(1, 1, 1); 
+  hurricaneLineMaterial.emissiveColor = new Color3(1, 1, 1);
 
-  const hoveredHurricaneMarkerMaterial = new StandardMaterial("hoveredHurricaneMat", scene);
+  const hoveredHurricaneMarkerMaterial = new StandardMaterial(
+    "hoveredHurricaneMat",
+    scene
+  );
   hoveredHurricaneMarkerMaterial.emissiveColor = new Color3(1, 1, 0);
 
-  const selectedHurricaneMarkerMaterial = new StandardMaterial("selectedHurricaneMat", scene);
+  const selectedHurricaneMarkerMaterial = new StandardMaterial(
+    "selectedHurricaneMat",
+    scene
+  );
   selectedHurricaneMarkerMaterial.emissiveColor = new Color3(0, 1, 0);
 
   const hurricanePoints: Mesh[] = [];
@@ -34,7 +40,7 @@ export const createHurricanePresentation = (scene: Scene, sphere: Mesh) => {
       positions.push(hurricanePosition);
 
       const marker = MeshBuilder.CreateSphere(
-        `${data.name}_marker_${point.hour}`,
+        `${data.name}_hurricane_${point.hour}`,
         { diameter: 0.006 },
         scene
       );
@@ -51,13 +57,21 @@ export const createHurricanePresentation = (scene: Scene, sphere: Mesh) => {
       };
       marker.parent = sphere;
       hurricanePoints.push(marker);
-
     });
-    
-    const line = MeshBuilder.CreateLines(`${data.name}_line`, { points: positions, updatable: false }, scene);
+
+    const line = MeshBuilder.CreateLines(
+      `${data.name}_line`,
+      { points: positions, updatable: false },
+      scene
+    );
     line.color = new Color3(1, 1, 1);
     line.parent = sphere;
     hurricaneLines.push(line);
   });
-  return { hurricanePoints, hurricaneMarkerMaterial, hoveredHurricaneMarkerMaterial, selectedHurricaneMarkerMaterial };
+  return {
+    hurricanePoints,
+    hurricaneMarkerMaterial,
+    hoveredHurricaneMarkerMaterial,
+    selectedHurricaneMarkerMaterial,
+  };
 };

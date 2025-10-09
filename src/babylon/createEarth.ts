@@ -6,16 +6,15 @@ import {
   Color3,
   GlowLayer,
 } from "@babylonjs/core";
-import earthTextureUrl from "../../assets/earth.jpg";
-import earthNormalTexture from "../../assets/earth_normal.jpg";
-import earthSpecularTextureUrl from "../../assets/earth_specular.jpg";
-import earthTextureNight from "../../assets/earth_nightmap.jpg";
+import earthTextureUrl from "../assets/earth.jpg";
+import earthNormalTexture from "../assets/earth_normal.jpg";
+import earthSpecularTextureUrl from "../assets/earth_specular.jpg";
+import earthTextureNight from "../assets/earth_nightmap.jpg";
 
 export const createEarth = (scene: Scene) => {
   const gl = new GlowLayer("glow", scene);
   gl.intensity = 0.6;
   gl.blurKernelSize = 64;
-  
 
   const sphere = MeshBuilder.CreateSphere(
     "earth",
@@ -32,7 +31,7 @@ export const createEarth = (scene: Scene) => {
   earthMaterial.specularPower = 10;
   earthMaterial.emissiveTexture = new Texture(earthTextureNight, scene);
   earthMaterial.emissiveColor = new Color3(0.01, 0.01, 0.1);
-  
+  earthMaterial;
 
   sphere.material = earthMaterial;
   sphere.rotation.x = Math.PI;

@@ -1,10 +1,12 @@
-import './App.css'
-import WorldMap from './components/worldmap/WorldMap'
+import "./App.css";
+import WorldMap from "./components/WorldMap";
 
 function App() {
-
-
-  return (<div className='w-full'><WorldMap /></div>)
+  return (
+    <div className="w-full">
+      <WorldMap />
+    </div>
+  );
 }
 
-export default App
+export default App;
