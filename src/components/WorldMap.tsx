@@ -8,10 +8,14 @@ import { createHurricanePresentation } from "../babylon/createHurricanRepresenta
 import { hurricaneInteract } from "../babylon/interaction/hurricanInteraction";
 import type { HurricanePointData } from "../interfaces/hurricane";
 import HurricaneInformation from "./HurricaneInformation";
+import type City from "../interfaces/city";
+import { cityInteract } from "../babylon/interaction/cityInteraction";
+import CityInformation from "./CityInformation";
 
 export default function WorldMap() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [hoveredCity, setHoveredCity] = useState<City | null>(null);
   const [hoveredHurricane, setHoveredHurricane] =
     useState<HurricanePointData | null>(null);
   const scene = useBabylonScene(canvasRef);
@@ -19,7 +23,8 @@ export default function WorldMap() {
   useEffect(() => {
     if (scene) {
       const { sphere } = createEarth(scene);
-      createCityMarkers(scene, sphere);
+      const { hoveredMarkerMaterial, markerMaterial, selectedMarkerMaterial } =
+        createCityMarkers(scene, sphere);
       const {
         hoveredHurricaneMarkerMaterial,
         hurricaneMarkerMaterial,
@@ -31,6 +36,13 @@ export default function WorldMap() {
         hoveredHurricaneMarkerMaterial,
         selectedHurricaneMarkerMaterial,
         setHoveredHurricane
+      );
+      cityInteract(
+        scene,
+        markerMaterial,
+        hoveredMarkerMaterial,
+        selectedMarkerMaterial,
+        setHoveredCity
       );
 
       setTimeout(() => setIsLoaded(true), 250);
@@ -74,6 +86,10 @@ export default function WorldMap() {
         <HurricaneInformation
           className="relative md:fixed top-80 z-50"
           hurricane={hoveredHurricane}
+        />
+        <CityInformation
+          className="relative md:fixed top-80 z-50"
+          city={hoveredCity}
         />
         <div className="col-span-1 md:col-span-2 relative">
           <canvas ref={canvasRef} className="w-full h-full " />

@@ -33,7 +33,7 @@ export const createCityMarkers = (scene: Scene, sphere: Mesh) => {
     );
 
     const marker = MeshBuilder.CreateSphere(
-      `${city.city}_marker`,
+      `${city.city}_city`,
       { diameter: 0.009 },
       scene
     );
