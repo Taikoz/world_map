@@ -2,7 +2,7 @@ import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 
 
 
-export default function convertGeoToCartesian(lat: number, lon: number): Vector3 {
+function convertGeoToCartesian(lat: number, lon: number): Vector3 {
     const rad_lat = (lat * Math.PI) / 180; 
     const rad_long = (lon * Math.PI) / 180; 
 
@@ -12,3 +12,32 @@ export default function convertGeoToCartesian(lat: number, lon: number): Vector3
 
     return new Vector3(x, y, z);
 }
+
+const EARTH_RADIUS = 1.0; 
+
+const toCartesian = (lat: number, lon: number, radius: number = EARTH_RADIUS) => {
+    
+    const latRad = lat * (Math.PI / 180);
+    const lonRad = lon * (Math.PI / 180);
+    
+    
+    const lonRadAdjusted = lonRad + (Math.PI / 2); 
+
+    
+    const cosLat = Math.cos(latRad);
+    
+    
+    const y = radius * Math.sin(latRad);
+    
+   
+    const x = radius * cosLat * Math.cos(lonRadAdjusted);
+    
+    const z = radius * cosLat * Math.sin(lonRadAdjusted);
+    
+
+    return { x, y: y, z: z };
+};
+
+
+
+export  { convertGeoToCartesian, toCartesian }

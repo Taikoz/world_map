@@ -8,7 +8,7 @@ import {
   Mesh,
 } from "@babylonjs/core";
 import type City from "../interfaces/city";
-import convertGeoToCartesian from "../utils/ConvertGeo";
+import {convertGeoToCartesian} from "../utils/ConvertGeo";
 import citiesData from "../utils/cities.json";
 
 export const createCityMarkers = (scene: Scene, sphere: Mesh) => {
@@ -34,7 +34,7 @@ export const createCityMarkers = (scene: Scene, sphere: Mesh) => {
 
     const marker = MeshBuilder.CreateSphere(
       `${city.city}_city`,
-      { diameter: 0.009 },
+      { diameter: 0.002 },
       scene
     );
 

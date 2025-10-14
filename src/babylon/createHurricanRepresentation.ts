@@ -7,7 +7,7 @@ import {
   type Scene,
 } from "@babylonjs/core";
 import type { Hurricane, Point } from "../interfaces/hurricane";
-import convertGeoToCartesian from "../utils/ConvertGeo";
+import {convertGeoToCartesian} from "../utils/ConvertGeo";
 import hurricaneDataPoints from "../utils/hurrican.json";
 
 export const createHurricanePresentation = (scene: Scene, sphere: Mesh) => {
@@ -41,7 +41,7 @@ export const createHurricanePresentation = (scene: Scene, sphere: Mesh) => {
 
       const marker = MeshBuilder.CreateSphere(
         `${data.name}_hurricane_${point.hour}`,
-        { diameter: 0.006 },
+        { diameter: 0.003 },
         scene
       );
 

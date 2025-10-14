@@ -4,10 +4,10 @@ import citiesData from "../utils/cities.json";
 import { useBabylonScene } from "../babylon/useBabylonScene";
 import { createEarth } from "../babylon/createEarth";
 import { createCityMarkers } from "../babylon/createCityMarkers";
-import { createHurricanePresentation } from "../babylon/createHurricanRepresentation";
+/* import { createHurricanePresentation } from "../babylon/createHurricanRepresentation";
 import { hurricaneInteract } from "../babylon/interaction/hurricanInteraction";
 import type { HurricanePointData } from "../interfaces/hurricane";
-import HurricaneInformation from "./HurricaneInformation";
+import HurricaneInformation from "./HurricaneInformation"; */
 import type City from "../interfaces/city";
 import { cityInteract } from "../babylon/interaction/cityInteraction";
 import CityInformation from "./CityInformation";
@@ -16,8 +16,8 @@ export default function WorldMap() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hoveredCity, setHoveredCity] = useState<City | null>(null);
-  const [hoveredHurricane, setHoveredHurricane] =
-    useState<HurricanePointData | null>(null);
+  /* const [hoveredHurricane, setHoveredHurricane] =
+    useState<HurricanePointData | null>(null); */
   const scene = useBabylonScene(canvasRef);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function WorldMap() {
       const { sphere } = createEarth(scene);
       const { hoveredMarkerMaterial, markerMaterial, selectedMarkerMaterial } =
         createCityMarkers(scene, sphere);
-      const {
+      /* const {
         hoveredHurricaneMarkerMaterial,
         hurricaneMarkerMaterial,
         selectedHurricaneMarkerMaterial,
@@ -36,7 +36,7 @@ export default function WorldMap() {
         hoveredHurricaneMarkerMaterial,
         selectedHurricaneMarkerMaterial,
         setHoveredHurricane
-      );
+      ); */
       cityInteract(
         scene,
         markerMaterial,
@@ -83,10 +83,10 @@ export default function WorldMap() {
             </div>
           </div>
         </div>
-        <HurricaneInformation
+        {/* <HurricaneInformation
           className="relative md:fixed top-80 z-50"
           hurricane={hoveredHurricane}
-        />
+        /> */}
         <CityInformation
           className="relative md:fixed top-80 z-50"
           city={hoveredCity}
