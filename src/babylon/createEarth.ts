@@ -6,20 +6,19 @@ import {
   Texture,
   Color3,
   Vector3,
-  Mesh,
-  DynamicTexture,
+  ArcRotateCamera,
 } from "@babylonjs/core";
 import earthTextureUrl from "../assets/earth.jpg";
 import earthNormalTexture from "../assets/earth_normal.jpg";
 import earthSpecularTextureUrl from "../assets/earth_specular.jpg";
 import earthTextureNight from "../assets/earth_nightmap.jpg";
-import WorldGeoJsonUrl from '../utils/world.geojson?url';
+import WorldGeoJsonUrl from "../utils/world.geojson?url";
+import ain_commune_geojson from "../utils/departement/01-ain/commune.geojson?url";
+
+import drawGeoJson from "./drawGeoJson";
 import { toCartesian } from "../utils/ConvertGeo";
 
-
 export const createEarth = (scene: Scene) => {
- 
-
   const sphere = MeshBuilder.CreateSphere(
     "earth",
     { diameter: 2, segments: 64 },
@@ -35,150 +34,41 @@ export const createEarth = (scene: Scene) => {
   earthMaterial.specularPower = 10;
   earthMaterial.emissiveTexture = new Texture(earthTextureNight, scene);
   earthMaterial.emissiveColor = new Color3(0.01, 0.01, 0.1);
- 
 
   sphere.material = earthMaterial;
   sphere.rotation.x = Math.PI;
   sphere.rotation.y = Math.PI / 2;
+  console.log(sphere.getBoundingInfo().boundingSphere.radius);
 
- 
 
-  fetch(WorldGeoJsonUrl)
-    .then(res => res.json())
-    .then(data => {
-      const radius = 1.001;
-      const lineColor: Color3 = Color3.FromInts(56, 173, 169);
+  drawGeoJson(WorldGeoJsonUrl, scene, { color: Color3.FromInts(56, 173, 169) });
 
-      data.features.forEach((feature: any) => {
-        const coords = feature.geometry.coordinates;
-        console.log(feature.properties.NAME)
-        
-        const name = feature.properties?.name || feature.properties?.NAME || "Inconnu";
-        const centroid = computeCentroid(feature.geometry);
-        if (centroid) {
-          const { lat, lon } = centroid;
-          const { x, y, z } = toCartesian(lat, lon, radius + 0.02);
-          createLabel3D(name, new Vector3(x, y, z), scene);
-        }
+  const frenchCenter = { lat: 46.5, lon: 2.5 };
 
-        if (feature.geometry.type === "Polygon") {
-          coords.forEach((ring: number[][]) => {
-            const points = ring.map(([lon, lat]) => {
-              const { x, y, z } = toCartesian(lat, lon, radius);
-              return new Vector3(x, y, z);
-            });
+  const francePos = toCartesian(
+    frenchCenter.lat,
+    frenchCenter.lon,
+    sphere.getBoundingInfo().boundingSphere.radius
+  );
 
-            const lines = MeshBuilder.CreateLines(
-              "country-border",
-              { points, updatable: false },
-              scene
-            );
-            const mat = new StandardMaterial("lineMat", scene);
-            mat.emissiveColor = lineColor;
-            lines.material = mat;
-          });
-        }
+  let frenchLoaded: boolean = false;
 
-        if (feature.geometry.type === "MultiPolygon") {
-          coords.forEach((polygon: number[][][]) => {
-            polygon.forEach((ring: number[][]) => {
-              const points = ring.map(([lon, lat]) => {
-                const { x, y, z } = toCartesian(lat, lon, radius);
-                return new Vector3(x, y, z);
-              });
-              const lines = MeshBuilder.CreateLines(
-                "country-border",
-                { points, updatable: false },
-                scene
-              );
-              const mat = new StandardMaterial("lineMat", scene);
-              mat.emissiveColor = lineColor;
-              lines.material = mat;
-            });
-          });
-        }
-      });
-    })
-    .catch(err => console.error("Erreur chargement GeoJSON :", err));
+  scene.onBeforeRenderObservable.add(() => {
+    const camera = scene.activeCamera as ArcRotateCamera;
+    if (!camera || frenchLoaded) return;
+
+    const sphereRadius = sphere.getBoundingInfo().boundingSphere.radius;
+    camera.lowerRadiusLimit = sphereRadius + 0.1; 
+    camera.upperRadiusLimit = 10;
+
+    if (camera.position <= new Vector3(francePos.x, francePos.y, francePos.z)) {
+      if (camera.radius <= 1.3) {
+        frenchLoaded = true;
+
+        drawGeoJson(ain_commune_geojson, scene);
+      }
+    }
+  });
 
   return { sphere };
 };
-
-function computeCentroid(geometry: any): { lat: number; lon: number } | null {
-  let totalLat = 0;
-  let totalLon = 0;
-  let count = 0;
-
-  const addPoints = (points: number[][]) => {
-    points.forEach(([lon, lat]) => {
-      totalLat += lat;
-      totalLon += lon;
-      count++;
-    });
-  };
-
-  if (geometry.type === "Polygon") {
-    geometry.coordinates.forEach(addPoints);
-  } else if (geometry.type === "MultiPolygon") {
-    geometry.coordinates.forEach((poly: number[][][]) =>
-      poly.forEach(addPoints)
-    );
-  } else {
-    return null;
-  }
-
-  if (count === 0) return null;
-  return { lat: totalLat / count, lon: totalLon / count };
-}
-
-
-function createLabel3D(text: string, position: Vector3, scene: Scene) {
-  const textureWidth = 64;
-  const textureHeight = 24;
-
-  const dynamicTexture = new DynamicTexture(
-    "labelTexture",
-    { width: textureWidth, height: textureHeight },
-    scene,
-    true
-  );
-  dynamicTexture.hasAlpha = true;
-
-  const ctx = dynamicTexture.getContext();
-  const fontSize = 12;
-  const font = `light ${fontSize}px sans-serif`;
-  ctx.font = font;
-
-  const textWidth = ctx.measureText(text).width;
-  const textX = Math.max((textureWidth - textWidth) / 2, 0);
-  const textY = textureHeight / 2 + fontSize / 2.8;
-
-  
-  dynamicTexture.drawText(
-    text,
-    textX,
-    textY,
-    font,
-    "rgba(255,255,255,0.4)",
-    "transparent",
-    true
-  );
-
-  const plane = MeshBuilder.CreatePlane("label", { width: 0.12, height: 0.04 }, scene);
-  plane.position = position;
-
-  const labelMat = new StandardMaterial("labelMat", scene);
-  labelMat.diffuseTexture = dynamicTexture;
-  labelMat.emissiveColor = new Color3(1, 1, 1);
-  labelMat.backFaceCulling = false;
-  labelMat.specularColor = new Color3(0, 0, 0);
-  labelMat.alpha = 0.8; 
-
-  plane.material = labelMat;
-
-
-  plane.billboardMode = Mesh.BILLBOARDMODE_ALL;
-
-  
-  plane.scaling.scaleInPlace(0.8);
-}

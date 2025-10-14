@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 import citiesData from "../utils/cities.json";
 import { useBabylonScene } from "../babylon/useBabylonScene";
-import { createEarth } from "../babylon/createEarth";
+
 import { createCityMarkers } from "../babylon/createCityMarkers";
 /* import { createHurricanePresentation } from "../babylon/createHurricanRepresentation";
 import { hurricaneInteract } from "../babylon/interaction/hurricanInteraction";
@@ -11,6 +11,8 @@ import HurricaneInformation from "./HurricaneInformation"; */
 import type City from "../interfaces/city";
 import { cityInteract } from "../babylon/interaction/cityInteraction";
 import CityInformation from "./CityInformation";
+import { createEarth } from "../babylon/createEarth";
+
 
 export default function WorldMap() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -25,6 +27,10 @@ export default function WorldMap() {
       const { sphere } = createEarth(scene);
       const { hoveredMarkerMaterial, markerMaterial, selectedMarkerMaterial } =
         createCityMarkers(scene, sphere);
+
+     
+      
+
       /* const {
         hoveredHurricaneMarkerMaterial,
         hurricaneMarkerMaterial,
