@@ -1,65 +1,171 @@
-Absolument \! Voici un modèle de fichier `README.md` que vous pouvez utiliser pour votre projet **World Map** interactif en 3D avec **Babylon.js** et **Vite.js**.
-
 # 🌍 World Map
 
-Bienvenue sur **World Map** \! Ce projet est un test pour créer un **globe terrestre interactif en 3D**  en utilisant la puissance du moteur de jeu **Babylon.js** pour le rendu 3D et **Vite.js** pour un environnement de développement rapide.
+Welcome to **World Map**! This project is an interactive 3D globe created using **Babylon.js** for the 3D rendering, **Vite.js** for a fast development environment, and **NestJS** for the backend API. This README provides a comprehensive guide to understanding, setting up, and running the project.
 
------
+---
 
-## 🚀 Démarrage Rapide
+## ✨ Features
 
-Suivez ces étapes simples pour configurer et lancer le projet sur votre machine locale.
+*   **Interactive 3D Globe**: A fully interactive 3D model of the Earth.
+*   **City Markers**: Pins on the globe to indicate major cities.
+*   **Hurricane Tracking**: Real-time tracking of hurricanes and other natural disasters.
+*   **GeoJSON Support**: The ability to draw and visualize GeoJSON data on the globe.
+*   **REST API**: A backend API to provide data to the frontend application.
 
-### 📋 Prérequis
+---
 
-Assurez-vous d'avoir [Node.js](https://nodejs.org/en/) (incluant **npm**) installé. Nous utiliserons également **Yarn** comme gestionnaire de paquets pour ce projet.
+## 📂 Project Structure
+
+The project is a monorepo with two main packages:
+
+*   `app`: The frontend application, built with React, Vite, and Babylon.js.
+*   `api`: The backend API, built with NestJS.
+
+```
+/home/aquennehen/repos/world_map/
+├───.env
+├───.gitignore
+├───docker-compose.yml
+├───README.md
+├───api/
+│   ├───api.Dockerfile
+│   ├───package.json
+│   └───src/
+└───app/
+    ├───app.Dockerfile
+    ├───package.json
+    └───src/
+```
+
+---
+
+## 🚀 Getting Started
+
+Follow these simple steps to set up and run the project on your local machine.
+
+### 📋 Prerequisites
+
+*   [Node.js](https://nodejs.org/en/) (v18 or higher)
+*   [Yarn](https://yarnpkg.com/)
+*   [Docker](https://www.docker.com/) (optional)
+*   [Docker Compose](https://docs.docker.com/compose/) (optional)
 
 ### 🛠️ Installation
 
-1.  **Clonez** le dépôt :
+1.  **Clone** the repository:
 
     ```bash
-    git clone [VOTRE_URL_DE_REPO]
+    git clone [YOUR_REPO_URL]
     cd world-map
     ```
 
-2.  **Installez** les dépendances du projet :
+2.  **Install** the project dependencies:
+
+    This project is a monorepo with two main parts: `app` and `api`. You will need to install the dependencies for both.
 
     ```bash
-    yarn install
+    # From the root directory
+    cd app && yarn install
+    cd ../api && yarn install
     ```
 
-### 🏃 Lancement du Projet
+### ⚙️ Configuration
 
-Une fois les dépendances installées, vous pouvez lancer le serveur de développement :
+#### Environment Variables
 
-```bash
-yarn run dev
+Create a `.env` file in the root of the project and add the following environment variables:
+
+```
+# .env
+
+# API
+API_PORT=3000
+
+# APP
+APP_PORT=5173
 ```
 
-Vite.js démarrera un serveur local, et vous devriez pouvoir accéder à l'application dans votre navigateur (généralement à l'adresse `http://localhost:5173/`). Le rechargement à chaud (Hot Module Replacement) est activé, donc les changements dans le code seront visibles immédiatement.
+### 🏃 Running the Project
 
------
+Once the dependencies are installed, you can run the development servers:
 
-## 📦 Technologies Utilisées
+```bash
+# For the frontend (app)
+cd app && yarn run dev
 
-  * **[Babylon.js](https://www.babylonjs.com/)** : Un moteur de rendu 3D temps réel puissant et complet pour le web.
-  * **[Vite.js](https://vitejs.dev/)** : Un outil de *build* et un serveur de développement ultra-rapides, offrant une expérience de développement moderne et efficace.
-  * **[Yarn](https://yarnpkg.com/)** : Un gestionnaire de paquets rapide, fiable et sécurisé.
+# For the backend (api)
+cd api && yarn run start:dev
+```
 
------
+The frontend application will be available at `http://localhost:5173/`, and the backend API will be available at `http://localhost:3000/`.
 
-## 💡 Objectifs du Projet Test
+---
 
-Ce projet sert de bac à sable pour explorer :
+## 🐳 Docker
 
-  * L'initialisation d'une scène 3D avec **Babylon.js** et sa liaison avec un projet **Vite.js**.
-  * La création d'une **sphère 3D** représentant le globe terrestre.
-  * L'application de **textures** pour une carte du monde.
-  * L'implémentation de **contrôles interactifs** (rotation, zoom) pour l'utilisateur.
+You can also run the project using Docker and Docker Compose.
 
------
+### 🛠️ Build and Run
 
-## 🤝 Contribution
+1.  **Build** the Docker images:
 
-Ce projet est un test personnel, mais les suggestions et les *pull requests* sont toujours les bienvenues \!
+    ```bash
+    docker-compose build
+    ```
+
+2.  **Run** the containers:
+
+    ```bash
+    docker-compose up
+    ```
+
+The application will be available at `http://localhost:5173/`.
+
+---
+
+## 📦 Technologies Used
+
+### Frontend
+
+*   **[React](https://reactjs.org/)**: A JavaScript library for building user interfaces.
+*   **[Babylon.js](https://www.babylonjs.com/)**: A powerful, real-time 3D rendering engine for the web.
+*   **[Vite.js](https://vitejs.dev/)**: A fast build tool and development server.
+
+### Backend
+
+*   **[NestJS](https://nestjs.com/)**: A progressive Node.js framework for building efficient, reliable and scalable server-side applications.
+
+### General
+
+*   **[Yarn](https://yarnpkg.com/)**: A fast, reliable, and secure package manager.
+*   **[Docker](https://www.docker.com/)**: A platform for developing, shipping, and running applications in containers.
+
+---
+
+## 📝 API Endpoints
+
+The backend API provides the following endpoints:
+
+*   `GET /api/locations`: Get a list of all locations.
+*   `GET /api/locations/:id`: Get a specific location by ID.
+*   `POST /api/locations`: Create a new location.
+*   `PUT /api/locations/:id`: Update a location.
+*   `DELETE /api/locations/:id`: Delete a location.
+
+---
+
+## 🚀 Deployment
+
+This project is set up for deployment with Docker. You can use the provided `docker-compose.yml` file to deploy the application to any server with Docker and Docker Compose installed.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a pull request or open an issue.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
