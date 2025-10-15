@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   Engine,
   Scene,
-  ArcRotateCamera,
   Vector3,
   HemisphericLight,
   Color3,
@@ -10,8 +9,11 @@ import {
   CubicEase,
   EasingFunction,
 } from "@babylonjs/core";
+import { createSurfaceCamera } from "./interaction/camera";
 
-export const useBabylonScene = (canvasRef: React.RefObject<HTMLCanvasElement | null>) => {
+export const useBabylonScene = (
+  canvasRef: React.RefObject<HTMLCanvasElement | null>
+) => {
   const [scene, setScene] = useState<Scene | null>(null);
 
   useEffect(() => {
@@ -21,22 +23,12 @@ export const useBabylonScene = (canvasRef: React.RefObject<HTMLCanvasElement | n
     const scene = new Scene(engine);
     scene.clearColor = new Color3(0.05, 0.05, 0.05).toColor4();
 
-    const camera = new ArcRotateCamera(
-      "camera",
-      -Math.PI / 2,
-      Math.PI / 2.5,
-      4,
-      Vector3.Zero(),
-      scene
-    );
-    camera.attachControl(canvasRef.current, true);
-    camera.lowerRadiusLimit = 1.25;
-    camera.upperRadiusLimit = 25;
-    camera.wheelPrecision = 50;
-    camera.minZ = 0.1;
+    const camera = createSurfaceCamera(scene);
+    //setCameraZoom(camera, 3);
 
     const cameraAnimation = new Animation(
       "cameraZoom",
+
       "radius",
       60,
       Animation.ANIMATIONTYPE_FLOAT,
@@ -52,8 +44,6 @@ export const useBabylonScene = (canvasRef: React.RefObject<HTMLCanvasElement | n
     camera.animations.push(cameraAnimation);
     scene.beginAnimation(camera, 0, 120, false);
 
-  
-
     const directionalLight = new HemisphericLight(
       "dirLight",
       new Vector3(1, -0.5, 1),
@@ -62,8 +52,6 @@ export const useBabylonScene = (canvasRef: React.RefObject<HTMLCanvasElement | n
     directionalLight.intensity = 1.2;
 
     setScene(scene);
-
-    
 
     engine.runRenderLoop(() => {
       scene.render();

@@ -30,14 +30,12 @@ export default function drawGeoJson(
       }
 
       const features = geojson.features;
-      console.log(`✅ ${features.length} features chargées depuis ${url}`);
 
-      // --- Fonction pour traiter une feature ---
       const processFeature = (feature: any) => {
         const coords = feature.geometry.coordinates;
         const name = feature.properties?.name || feature.properties?.NAME || "Inconnu";
 
-        // --- Labels 3D ---
+        
         if (options.label) {
           const centroid = computeCentroid(feature.geometry);
           if (centroid) {
@@ -47,7 +45,7 @@ export default function drawGeoJson(
           }
         }
 
-        // --- Création des lignes ---
+      
         const createLine = (points: number[][]) => {
           const linePoints = points.map(([lon, lat]) => {
             const { x, y, z } = toCartesian(lat, lon, radius);
@@ -63,7 +61,10 @@ export default function drawGeoJson(
           case "Polygon":
             coords.forEach((ring: number[][]) => createLine(ring));
             break;
+
+          
           case "MultiPolygon":
+            
             coords.forEach((polygon: number[][][]) =>
               polygon.forEach((ring: number[][]) => createLine(ring))
             );
@@ -79,7 +80,7 @@ export default function drawGeoJson(
 
      
       let index = 0;
-      const batchSize = 1; 
+      const batchSize = 5; 
 
       const processBatch = () => {
         const end = Math.min(index + batchSize, features.length);
@@ -149,7 +150,7 @@ function createLabel3D(text: string, position: Vector3, scene: Scene) {
   const textY = textureHeight / 2 + fontSize / 2.8;
 
   
-  dynamicTexture.drawText(
+dynamicTexture.drawText(
     text,
     textX,
     textY,

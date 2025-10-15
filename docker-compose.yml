@@ -1,0 +1,49 @@
+version: "3.9"
+
+services:
+  vite-app:
+    build:
+      context: app/
+      dockerfile: app.Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./app:/app
+    environment:
+      - NODE_ENV=development
+    command: npm run dev -- --host
+    depends_on:
+      - db
+  db:
+    image: garapadev/postgres-postgis-pgvector:15
+    container_name: postgis-pgvector
+    env_file:
+      - .env
+    ports:
+      - "5555:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - "5050:8080"  
+    depends_on:
+      - db
+
+  api:
+    build:
+      context: api/
+      dockerfile: api.Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./api:/app
+    env_file:
+      - .env
+    depends_on:
+      - db
+volumes:
+  pgdata:
