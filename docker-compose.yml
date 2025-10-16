@@ -1,6 +1,19 @@
 version: "3.9"
 
 services:
+
+  tileserver:
+    image: maptiler/tileserver-gl:latest
+    container_name: tileserver
+    restart: always
+    ports:
+      - "4444:8080"
+    volumes:
+      - ./app/tiles:/data        
+    environment:
+      - TILESERVER_HOST=0.0.0.0
+      - PUBLIC_URL=http://localhost:4444  
+    
   vite-app:
     build:
       context: app/
