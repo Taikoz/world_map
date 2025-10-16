@@ -1,55 +1,29 @@
 import { useEffect, useRef, useState } from "react";
 
 import citiesData from "../utils/cities.json";
-import { useBabylonScene } from "../babylon/useBabylonScene";
+import { useBabylonScene } from "../babylon/babylonScene";
 
-import { createCityMarkers } from "../babylon/createCityMarkers";
-/* import { createHurricanePresentation } from "../babylon/createHurricanRepresentation";
-import { hurricaneInteract } from "../babylon/interaction/hurricanInteraction";
-import type { HurricanePointData } from "../interfaces/hurricane";
-import HurricaneInformation from "./HurricaneInformation"; */
+import { CityOnMap } from "../babylon/cityOnMap";
 import type City from "../interfaces/city";
-import { cityInteract } from "../babylon/interaction/cityInteraction";
-import CityInformation from "./CityInformation";
-import { createEarth } from "../babylon/createEarth";
+import CityInformation from "./cityInformation";
+import { Earth } from "../babylon/earth";
+
 
 
 export default function WorldMap() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hoveredCity, setHoveredCity] = useState<City | null>(null);
-  /* const [hoveredHurricane, setHoveredHurricane] =
-    useState<HurricanePointData | null>(null); */
+  
   const scene = useBabylonScene(canvasRef);
 
   useEffect(() => {
     if (scene) {
-      const { sphere } = createEarth(scene);
-      const { hoveredMarkerMaterial, markerMaterial, selectedMarkerMaterial } =
-        createCityMarkers(scene, sphere);
+      const earth = new Earth(scene);
+      const sphere = earth.sphere;
+      const cityOnMap = new CityOnMap(scene, sphere);
 
-     
-      
-
-      /* const {
-        hoveredHurricaneMarkerMaterial,
-        hurricaneMarkerMaterial,
-        selectedHurricaneMarkerMaterial,
-      } = createHurricanePresentation(scene, sphere);
-      hurricaneInteract(
-        scene,
-        hurricaneMarkerMaterial,
-        hoveredHurricaneMarkerMaterial,
-        selectedHurricaneMarkerMaterial,
-        setHoveredHurricane
-      ); */
-      cityInteract(
-        scene,
-        markerMaterial,
-        hoveredMarkerMaterial,
-        selectedMarkerMaterial,
-        setHoveredCity
-      );
+      cityOnMap.enableInteractions(setHoveredCity);
 
       setTimeout(() => setIsLoaded(true), 250);
     }
@@ -60,8 +34,7 @@ export default function WorldMap() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 w-full h-full">
         <div className="col-span-1 md:col-span-1 bg-gray-900 text-white p-4 overflow-auto">
           <div
-            className={`absolute top-8 left-4 md:left-8 z-10 transition-all duration-1000 ${
-              isLoaded
+            className={`absolute top-8 left-4 md:left-8 z-10 transition-all duration-1000 ${ isLoaded
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 -translate-y-10"
             }`}
@@ -75,8 +48,7 @@ export default function WorldMap() {
           </div>
 
           <div
-            className={`absolute bottom-8 left-4 md:left-8 z-10 transition-all duration-1000 ${
-              isLoaded ? "opacity-100" : "opacity-0"
+            className={`absolute bottom-8 left-4 md:left-8 z-10 transition-all duration-1000 ${ isLoaded ? "opacity-100" : "opacity-0"
             }`}
           >
             <div className="bg-slate-900/40 backdrop-blur-xl border border-cyan-500/20 rounded-xl p-4">
@@ -84,15 +56,11 @@ export default function WorldMap() {
                 {citiesData.length} 🏙️
               </div>
               <div className="text-sm text-cyan-200/60">
-                Villes disponibles{" "}
+                Villes disponibles 
               </div>
             </div>
           </div>
         </div>
-        {/* <HurricaneInformation
-          className="relative md:fixed top-80 z-50"
-          hurricane={hoveredHurricane}
-        /> */}
         <CityInformation
           className="relative md:fixed top-80 z-50"
           city={hoveredCity}
@@ -101,8 +69,7 @@ export default function WorldMap() {
           <canvas ref={canvasRef} className="w-full h-full " />
 
           <div
-            className={`absolute bottom-8 right-4 md:right-8 z-10 transition-all duration-1000 ${
-              isLoaded ? "opacity-100" : "opacity-0"
+            className={`absolute bottom-8 right-4 md:right-8 z-10 transition-all duration-1000 ${ isLoaded ? "opacity-100" : "opacity-0"
             }`}
           >
             <div className="bg-slate-900/40 backdrop-blur-xl border border-cyan-500/20 rounded-xl p-4 text-cyan-200/80 text-sm">

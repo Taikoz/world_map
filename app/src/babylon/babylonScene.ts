@@ -9,7 +9,7 @@ import {
   CubicEase,
   EasingFunction,
 } from "@babylonjs/core";
-import { createSurfaceCamera } from "./interaction/camera";
+import { SurfaceCamera } from "./surfaceCamera";
 
 export const useBabylonScene = (
   canvasRef: React.RefObject<HTMLCanvasElement | null>
@@ -23,8 +23,7 @@ export const useBabylonScene = (
     const scene = new Scene(engine);
     scene.clearColor = new Color3(0.05, 0.05, 0.05).toColor4();
 
-    const camera = createSurfaceCamera(scene);
-    //setCameraZoom(camera, 3);
+    const camera = new SurfaceCamera(scene);
 
     const cameraAnimation = new Animation(
       "cameraZoom",

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PointerEventTypes, PointerInfo, type Scene } from "@babylonjs/core";
 
 const mouseEnter = (scene: Scene, action: () => any) => {
