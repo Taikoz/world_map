@@ -48,15 +48,16 @@ services:
 
   api:
     build:
-      context: api/
+      context: server/
       dockerfile: api.Dockerfile
     ports:
-      - "3000:3000"
+      - "8000:8000"  
     volumes:
-      - ./api:/app
+      - ./server:/api               
     env_file:
       - .env
     depends_on:
       - db
+    command: ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
 volumes:
   pgdata:
